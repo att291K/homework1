@@ -5,12 +5,6 @@ import org.junit.Test;
 import org.mockito.Mockito;
 import sbp.common.Utils;
 
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-
 import static org.mockito.ArgumentMatchers.anyString;
 
 public class MyBranchingTest {
@@ -43,11 +37,11 @@ public class MyBranchingTest {
     public void ifElseExample_Test()
     {
         Utils utilsMock = Mockito.mock(Utils.class);
-        Mockito.when(utilsMock.utilFunc2()).thenReturn(false);
+        Mockito.when(utilsMock.utilFunc2()).thenReturn(true);
 
         MyBranching myBranching = new MyBranching(utilsMock);
         boolean res = myBranching.ifElseExample();
-        Assertions.assertTrue(true);
+        Assertions.assertTrue(res);
     }
 
     /**
@@ -101,8 +95,6 @@ public class MyBranchingTest {
     @Test
     public void switchExample_Test()
     {
-        final int iteration = 0;
-
         Utils utilsMock = Mockito.mock(Utils.class);
         Mockito.when(utilsMock.utilFunc1(anyString())).thenReturn(false);
         Mockito.when(utilsMock.utilFunc2()).thenReturn(true);
@@ -112,14 +104,12 @@ public class MyBranchingTest {
             System.out.println("i="+i);
             MyBranching myBranching = new MyBranching(utilsMock);
             myBranching.switchExample(i);
-            int iter = i;
-
             if (i==2) {
                 off++;
             }
 
-            Mockito.verify(utilsMock, Mockito.times(1+iter-off)).utilFunc1(anyString());
-            Mockito.verify(utilsMock, Mockito.times(1+iter)).utilFunc2();
+            Mockito.verify(utilsMock, Mockito.times(1+i-off)).utilFunc1(anyString());
+            Mockito.verify(utilsMock, Mockito.times(1+i)).utilFunc2();
         }
 
     }
